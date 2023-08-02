@@ -1,0 +1,33 @@
+{
+  "name": "panda-shop",
+  "version": "2.0.0",
+  "description": "eCommerce application built with the MERN stack",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix front_end",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KekeChenLoveDevelop/MERN-WebApplication.git"
+  },
+  "author": "ChloeChen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KekeChenLoveDevelop/MERN-WebApplication/issues"
+  },
+  "homepage": "https://github.com/KekeChenLoveDevelop/MERN-WebApplication#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1"
+  }
+}
