@@ -1,22 +1,28 @@
 import express from 'express';
-import products from './data/products.js'
 import dotenv from 'dotenv';
-dotenv.config();
+import connectDB from './config/db.js';
+import productsRoutes from'./routes/productsRoutes.js';
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import userRoutes from'./routes/userRoutes.js';
+import cookieParser from 'cookie-parser';
 
+dotenv.config();
+connectDB();
 const port = process.env.PORT;
 const app = express();
 
+//middleware to get the body data
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 app.get('/', (req, res) => {
     res.send('API running')
-})
+});
 
-app.get('/api/products', (req, res) => {
-    res.json(products);
-})
+app.use('/api/products', productsRoutes);
+app.use('/api/users', userRoutes);
 
-app.get('/api/products/:id', (req, res) => {
-    const product = products.find((p) => p._id === req.params.id);
-    res.json(product);
-})
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server running on ${port}`))
