@@ -14,6 +14,7 @@ const app = express();
 //middleware to get the body data
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
     res.send('API running')

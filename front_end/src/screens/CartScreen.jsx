@@ -20,7 +20,7 @@ const CartScreen = () => {
         dispatch(removeFromCart(id));
     }
     const checkOutHandler = () => {
-        navigate('/login?redirect=/sipping');
+        navigate('/login?redirect=/shipping');
     }
 
   return (
