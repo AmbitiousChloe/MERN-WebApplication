@@ -19,9 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
-    res.send('API running')
-});
+
 
 app.use('/api/products', productsRoutes);
 app.use('/api/users', userRoutes);
@@ -31,6 +29,19 @@ app.use('/api/upload', uploadRoutes);
 app.get('/api/config/paypal', (req, res) => res.send({clientId: process.env.PAYPAL_CLIENT_ID}));
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+if (process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname, '/front_end/build')));
+    app.get('*', (req, res) => 
+    res.sendFile(path.resolve(__dirname, 'front_end', 'build', 'index.html'))
+    );
+}else{
+    app.get('/', (req, res) => {
+        res.send('API running')
+    });
+}
+
+
 
 app.use(notFound);
 app.use(errorHandler);
