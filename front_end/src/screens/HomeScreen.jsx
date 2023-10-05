@@ -1,30 +1,57 @@
-import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import Products from '../components/Products';
+import { useParams } from 'react-router-dom';
 import { useGetProductsQuery } from '../slices/productApiSlice';
+import { Link } from 'react-router-dom';
+import Product from '../components/Products';
 import Loader from '../components/loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
+import ProductCarousel from '../components/ProductCarousel';
+import Meta from '../components/Meta';
 
 const HomeScreen = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { pageNumber, keyword } = useParams();
+
+  const { data, isLoading, error } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
+
   return (
     <>
-        { isLoading?(
-          <Loader />
-        ): error ? (
-          <Message variant={'danger'}>{error?.data?.message || error.error}</Message>
-        ): (<>
-        <h1>Lastest Products</h1>
-        <Row>
-            {products.map((product) => (
-                <Col key={product._id} sm={12} md={6} lg={4} xl={3}> 
-                    <Products product={product} />
-                </Col>
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to='/' className='btn btn-light mb-4'>
+          Go Back
+        </Link>
+      )}
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant='danger'>
+          {error?.data?.message || error.error}
+        </Message>
+      ) : (
+        <>
+          <Meta />
+          <h1>Latest Products</h1>
+          <Row>
+            {data.products.map((product) => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={product} />
+              </Col>
             ))}
-        </Row>
-        </>)}
+          </Row>
+          <Paginate
+            pages={data.pages}
+            page={data.page}
+            keyword={keyword ? keyword : ''}
+          />
+        </>
+      )}
     </>
   );
 };
 
-export default HomeScreen
+export default HomeScreen;
