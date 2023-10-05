@@ -6,6 +6,11 @@ main {
   margin: 0.1rem;
 }
 
+.product-image-container {
+  height: 250px;  /* or whatever height suits your design */
+  overflow: hidden;  /* to hide any excess image */
+}
+
 .rating svg {
   color: #f8e825;
 }
